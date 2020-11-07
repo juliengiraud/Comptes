@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 @Injectable({
   providedIn: 'root'
 })
-export class TestService {
+export class TestApiService {
 
   private apiUrl: string = 'https://www.api.julien-giraud.fr';
   private headers: HttpHeaders;
@@ -44,6 +44,13 @@ export class TestService {
 
   getAllPagesViewCount(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
     const url = this.apiUrl + '/stats/getAllPagesViewCount';
+    return this.http.get<any>(url, {
+      headers: this.headers
+    }).subscribe(next, error, complete);
+  }
+
+  getBPInfos(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
+    const url = this.apiUrl + '/test/getBPInfos';
     return this.http.get<any>(url, {
       headers: this.headers
     }).subscribe(next, error, complete);

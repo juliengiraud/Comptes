@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TestService } from 'src/app/api-services/test.service';
+import { TestApiService } from 'src/app/services/api/test.service';
 
 @Component({
   selector: 'app-test',
@@ -14,29 +14,28 @@ export class TestComponent implements OnInit {
   public fridrichViewCount: any = '...';
   public newBearerToken: any = '...';
 
-  constructor(private testService: TestService) { }
+  constructor(private testApiService: TestApiService) { }
 
   ngOnInit(): void {
-    this.testService.getAllPagesViewCount((data) => {
+    this.testApiService.getAllPagesViewCount((data) => {
       this.pagesViewCount = data;
       console.log(data);
     });
-    // this.testService.getAllVisits((data) => {
-    //   this.visits = data;
-    //   console.log('visitCount', data);
-    // });
-    this.testService.getFridrichDownloadCount((data) => {
+    this.testApiService.getFridrichDownloadCount((data) => {
       this.fridrichDownloadCount = data;
       console.log('fridrichDownloadCount', data);
     });
-    this.testService.getFridrichViewCount((data) => {
+    this.testApiService.getFridrichViewCount((data) => {
       this.fridrichViewCount = data;
       console.log('fridrichViewCount', data);
     });
-    this.testService.getNewBearerToken((data) => {
+    this.testApiService.getNewBearerToken((data) => {
       this.newBearerToken = data;
       console.log('newBearerToken', data);
     });
+    this.testApiService.getBPInfos((data) => {
+      console.log("banque", data);
+    })
   }
 
 }
