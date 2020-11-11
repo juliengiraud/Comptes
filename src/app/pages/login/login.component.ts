@@ -19,18 +19,26 @@ export class LoginComponent implements OnInit {
   doLogin() {
     console.log("login", this.user);
     this.userApiService.login(this.user, (data: any) => {
-      console.log("ok", data);
+      console.log("Connexion réussie", data);
     }, (err) => {
-      console.log("err", err);
+      if (err.error.error === "CONNECTION_FAILED") {
+        console.log("Login ou mot de passe incorrect");
+      } else {
+        console.log("err", err);
+      }
     });
   }
 
   doRegister() {
-    console.log("register", this.user);
+    console.log('register', this.user);
     this.userApiService.register(this.user, (data: any) => {
-      console.log("ok", data);
+      console.log("Compte crée", data);
     }, (err) => {
-      console.log("err", err);
+      if (err.error.error === 'USED_LOGIN') {
+        console.log('Login déjà utilisé')
+      } else {
+        console.log("err", err);
+      }
     });
   }
 

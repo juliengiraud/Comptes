@@ -8,22 +8,20 @@ import { User } from 'src/app/model/user.model';
 export class UserApiService {
 
   private apiUrl: string = 'https://www.api.julien-giraud.fr/comptes';
-  private headers: HttpHeaders;
 
   constructor(private http: HttpClient) {
-    this.headers = new HttpHeaders();
   }
 
   login(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
     const params = {
-      user: user
+      data: user
     };
-    return this.http.post<any>(this.apiUrl + 'login', params).subscribe(next, error, complete);
+    return this.http.post<any>(this.apiUrl + '/login', params).subscribe(next, error, complete);
   }
 
   register(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
     const params = {
-      user: user
+      data: user
     };
     return this.http.post<any>(this.apiUrl + '/register', params).subscribe(next, error, complete);
   }
