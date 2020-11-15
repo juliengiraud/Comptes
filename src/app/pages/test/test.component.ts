@@ -16,11 +16,9 @@ export class TestComponent implements OnInit {
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.authService.getUser().then(() => {
-      this.testApiService.getAllPagesViewCount((data) => {
-        this.pagesViewCount = data;
-        console.log(data);
-      });
+    this.testApiService.getAllPagesViewCount((data) => {
+      this.pagesViewCount = data;
+      console.log(data);
     });
   }
 

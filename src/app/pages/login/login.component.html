@@ -1,4 +1,8 @@
 <div class="container">
+  <ng-container *ngIf="authService.isUserLogged(); then logout else login"></ng-container>
+</div>
+
+<ng-template #login>
   <div>
     <h1>Connexion</h1>
   </div>
@@ -17,4 +21,15 @@
     <button (click)="doRegister()">S'inscrire</button>
   </div>
 
-</div>
+</ng-template>
+
+<ng-template #logout>
+  <div>
+    <h1>Déconnexion</h1>
+  </div>
+
+  <div class="form-step">
+    <button (click)="doLogout()">Se déconnecter</button>
+  </div>
+
+</ng-template>

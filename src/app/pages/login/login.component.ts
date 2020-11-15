@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
 
   constructor(private userApiService: UserApiService,
-              private authService: AuthService) { }
+              public authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -44,6 +44,10 @@ export class LoginComponent implements OnInit {
         console.log("err", err);
       }
     });
+  }
+
+  doLogout() {
+    this.authService.logout();
   }
 
 }

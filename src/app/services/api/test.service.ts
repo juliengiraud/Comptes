@@ -13,9 +13,7 @@ export class TestApiService {
   constructor(private http: HttpClient,
               private authService: AuthService) {
     this.headers = new HttpHeaders();
-    this.authService.getUser().then((data) => {
-      this.headers = this.headers.set('Authorization', 'Bearer ' + data.token);
-    });
+    this.headers = this.headers.set('Authorization', 'Bearer ' + this.authService.getUser().token);
   }
 
   getAllPagesViewCount(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
