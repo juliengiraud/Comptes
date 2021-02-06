@@ -1,29 +1,35 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { User } from 'src/app/model/user.model';
+import { AuthService } from '../auth.service';
+import { GenericApiService } from './generic-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserApiService {
+export class UserApiService extends GenericApiService {
 
-  private apiUrl: string = 'https://www.api.julien-giraud.fr/comptes';
-
-  constructor(private http: HttpClient) {
+  constructor(http: HttpClient,
+              authService: AuthService) {
+    super(http, authService);
+    this.apiUrl = this.apiUrl + '/comptes';
   }
 
-  login(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
+  login(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+    const url = this.apiUrl + '/login';
     const params = {
       data: user
     };
-    return this.http.post<any>(this.apiUrl + '/login', params).subscribe(next, error, complete);
+    return this.doPost(url, params, next, error, complete);
   }
 
-  register(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
+  register(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+    const url = this.apiUrl + '/register';
     const params = {
       data: user
     };
-    return this.http.post<any>(this.apiUrl + '/register', params).subscribe(next, error, complete);
+    return this.doPost(url, params, next, error, complete);
   }
 
 }

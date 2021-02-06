@@ -1,26 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { GenericApiService } from 'src/app/services/api/generic-api.service';
 import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TestApiService {
+export class TestApiService extends GenericApiService {
 
-  private apiUrl: string = 'https://www.api.julien-giraud.fr';
-  private headers: HttpHeaders;
-
-  constructor(private http: HttpClient,
-              private authService: AuthService) {
-    this.headers = new HttpHeaders();
-    this.headers = this.headers.set('Authorization', 'Bearer ' + this.authService.getUser().token);
+  constructor(http: HttpClient,
+              authService: AuthService) {
+    super(http, authService);
   }
 
   getAllPagesViewCount(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void) {
     const url = this.apiUrl + '/stats/getAllPagesViewCount';
-    return this.http.get<any>(url, {
-      headers: this.headers
-    }).subscribe(next, error, complete);
+    return this.doGet(url, next, error, complete);
   }
 
 }

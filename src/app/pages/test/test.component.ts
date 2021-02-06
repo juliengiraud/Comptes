@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { forkJoin } from 'rxjs';
 import { TestApiService } from 'src/app/services/api/test.service';
 import { AuthService } from 'src/app/services/auth.service';
 

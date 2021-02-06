@@ -22,6 +22,10 @@ export class AuthService {
     return this.user !== undefined && this.user !== null;
   }
 
+  getUser(): User {
+    return this.user;
+  }
+
   setUser(user: User): Promise<void> {
     return new Promise((resolve, reject) => {
       this.localStorage.setItem("user", user).subscribe(() => {
@@ -42,10 +46,6 @@ export class AuthService {
         reject(err)
       });
     });
-  }
-
-  getUser(): User {
-    return this.user;
   }
 
   logout(): Promise<void> {
