@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -15,8 +15,12 @@ export class OperationApiService extends GenericApiService {
     this.apiUrl = this.apiUrl + '/comptes';
   }
 
-  getAllOperations(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
-    const url = this.apiUrl + '/getAllOperations';
+  getOperations(start: number, length: number,
+                next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+    let params = new HttpParams();
+    params = params.set('start', start.toString());
+    params = params.set('length', length.toString());
+    const url = this.apiUrl + '/getOperations?' + params.toString();
     return this.doGet(url, next, error, complete);
   }
 

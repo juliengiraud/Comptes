@@ -1,3 +1,4 @@
+import { NodeWithI18n } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { OperationApiService } from 'src/app/services/api/operation.service';
 
@@ -13,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private operationApiService: OperationApiService) { }
 
   ngOnInit(): void {
-    this.operationApiService.getAllOperations((operations: any) => {
+    this.operationApiService.getOperations(1, 10, (operations: any) => {
       console.log('next', operations);
       this.operations = operations;
     }, (err) => {
@@ -66,5 +67,14 @@ export class HomeComponent implements OnInit {
   updateRemboursable(operation: any, newRemboursable: any): void {
     operation.remboursable = newRemboursable ? '1' : '0';
   }
+
+  // updateParameter(operation: any, key: string, value: any): void {
+  //   operation[key] = value;
+  //   this.operationApiService.update(operation, () => {
+  //     console.log('update done');
+  //   }, (err: any) => {
+  //     console.log(err);
+  //   });
+  // }
 
 }
