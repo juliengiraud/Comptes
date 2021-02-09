@@ -4,12 +4,18 @@ import { TestComponent } from './pages/test/test.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AllOperationsComponent } from './pages/all-operations/all-operations.component';
 
 
 const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'all-operations',
+    component: AllOperationsComponent,
     canActivate: [AuthGuard]
   },
   {

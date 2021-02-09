@@ -11,6 +11,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { TestComponent } from './pages/test/test.component';
 import { LoginComponent } from './pages/login/login.component';
+import { OperationsComponent } from './components/operations/operations.component';
+import { OperationEditComponent } from './components/operation-edit/operation-edit.component';
+import { AllOperationsComponent } from './pages/all-operations/all-operations.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { LoginComponent } from './pages/login/login.component';
     HeaderComponent,
     FooterComponent,
     TestComponent,
-    LoginComponent
+    LoginComponent,
+    OperationsComponent,
+    OperationEditComponent,
+    AllOperationsComponent
   ],
   imports: [
     BrowserModule,
