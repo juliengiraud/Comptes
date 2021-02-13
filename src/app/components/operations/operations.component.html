@@ -1,6 +1,6 @@
 <div>
   <ng-container *ngFor="let operation of operations; let i = index">
-    <p>{{getDateString(operation.date)}} : {{operation.montant}} ({{operation.commentaire}}) {{operation.remboursable === '1' ? 'remboursable' : ''}}
+    <p>{{getDateString(operation.date)}} : {{operation.montant}} € ({{operation.commentaire}}) {{operation.remboursable === '1' ? 'remboursable' : ''}}
       <button (click)="updateEditMode(operation)">{{operation.edit !== true ? 'Modifier ↓' : 'Cacher ↑'}}</button>
     </p>
     <app-operation-edit

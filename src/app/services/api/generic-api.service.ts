@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 
@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 })
 export class GenericApiService {
 
-  protected apiUrl: string = 'https://www.api.julien-giraud.fr';
+  protected apiUrl = 'https://www.api.julien-giraud.fr';
   private headers: HttpHeaders = new HttpHeaders();
 
   constructor(private http: HttpClient,
@@ -23,17 +23,25 @@ export class GenericApiService {
     return this.headers;
   }
 
-  protected doGet(url: string, next?: (value?: any) => void,
+  protected doGet(url: string, params: any, next?: (value?: any) => void,
                   error?: (error?: any) => void, complete?: () => void): Subscription {
-    // TODO ajouter le code pour les paramètres GET
-    return this.http.get<any>(url, { headers: this.getHeaders() })
+    let httpParams = new HttpParams();
+    for (const property of Object.keys(params)) {
+      httpParams = httpParams.set(property, params[property]);
+    }
+    return this.http.get<any>(url + '?' + httpParams.toString(), { headers: this.getHeaders() })
         .subscribe(next, error, complete);
   }
 
   protected doPost(url: string, params: any, next?: (value?: any) => void,
                    error?: (error?: any) => void, complete?: () => void): Subscription  {
-    // return this.http.post<any>(url, { headers: this.getHeaders(), params })
-    return this.http.post<any>(url, params, {headers: this.getHeaders()})
+    return this.http.post<any>(url, params, { headers: this.getHeaders() })
+        .subscribe(next, error, complete);
+  }
+
+  protected doPut(url: string, params: any, next?: (value?: any) => void,
+                  error?: (error?: any) => void, complete?: () => void): Subscription  {
+    return this.http.put<any>(url, params, { headers: this.getHeaders() })
         .subscribe(next, error, complete);
   }
 

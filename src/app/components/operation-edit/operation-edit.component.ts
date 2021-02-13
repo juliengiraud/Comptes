@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { OperationApiService } from 'src/app/services/api/operation.service';
+import { Operation } from 'src/app/model/operation.model';
 
 @Component({
   selector: 'app-operation-edit',
@@ -7,15 +9,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class OperationEditComponent implements OnInit {
 
-  @Input() operation: any;
+  @Input() operation: Operation;
   @Input() id: number;
 
-  constructor() { }
+  constructor(private operationApiService: OperationApiService) { }
 
   ngOnInit(): void {
   }
 
-  getNewMontantFromSigne(operation: any, newSigne: number): number {
+  getNewMontantFromSigne(operation: Operation, newSigne: number): number {
     let newMontant = Math.abs(operation.montant);
     if (newSigne < 0) {
       newMontant *= -1;
@@ -23,17 +25,18 @@ export class OperationEditComponent implements OnInit {
     return newMontant;
   }
 
-  getNewRemboursable(remboursable: boolean): string {
-    return remboursable ? '1' : '0';
+  getNewRemboursable(remboursable: string): string {
+    return remboursable === '1' ? '0' : '1';
   }
 
-  updateParameter(operation: any, key: string, value: any): void {
+  updateParameter(operation: Operation, key: string, value: any): void {
+    const lastValue = operation[key];
     operation[key] = value;
-    // this.operationApiService.update(operation, () => {
-    //   console.log('update done');
-    // }, (err: any) => {
-    //   console.log(err);
-    // });
+    this.operationApiService.update(operation, () => {
+    }, (err: any) => {
+      operation[key] = lastValue;
+      console.log(err);
+    });
   }
 
 }

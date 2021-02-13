@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Operation } from 'src/app/model/operation.model';
 import { AuthService } from '../auth.service';
 import { GenericApiService } from './generic-api.service';
 
@@ -15,13 +16,23 @@ export class OperationApiService extends GenericApiService {
     this.apiUrl = this.apiUrl + '/comptes';
   }
 
-  getOperations(start: number, length: number,
-                next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
-    let params = new HttpParams();
-    params = params.set('start', start.toString());
-    params = params.set('length', length.toString());
-    const url = this.apiUrl + '/getOperations?' + params.toString();
-    return this.doGet(url, next, error, complete);
+  getByStartAndQuantity(start: number, length: number, next?: (value?: Array<Operation>) => void,
+                        error?: (error?: any) => void, complete?: () => void): Subscription {
+    const params = {
+      start: start.toString(),
+      length: length.toString()
+    };
+    const url = this.apiUrl + '/getByStartAndQuantity';
+    return this.doGet(url, params, next, error, complete);
+  }
+
+  update(operation: Operation, next?: (value?: Array<Operation>) => void,
+         error?: (error?: any) => void, complete?: () => void): Subscription {
+    const params = {
+      data: operation
+    };
+    const url = this.apiUrl + '/update';
+    return this.doPut(url, params, next, error, complete);
   }
 
 }

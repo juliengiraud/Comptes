@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Operation } from 'src/app/model/operation.model';
 import { OperationApiService } from 'src/app/services/api/operation.service';
 
 @Component({
@@ -8,9 +9,9 @@ import { OperationApiService } from 'src/app/services/api/operation.service';
 })
 export class OperationsComponent implements OnInit {
 
-  start = 1;
+  start = 0;
   length: number;
-  operations: any;
+  operations: Array<Operation>;
 
   @Input() set length_(length: number) {
     if (this.operations != null) {
@@ -24,7 +25,7 @@ export class OperationsComponent implements OnInit {
   constructor(private operationApiService: OperationApiService) { }
 
   ngOnInit(): void {
-    this.operationApiService.getOperations(this.start, this.length, (operations: any) => {
+    this.operationApiService.getByStartAndQuantity(this.start, this.length, (operations) => {
       console.log('next', operations);
       this.operations = operations;
     }, (err) => {
@@ -58,7 +59,7 @@ export class OperationsComponent implements OnInit {
   updateOperations(oldLength: number, newLength: number): void {
     console.log('passage de', oldLength, 'à', newLength);
     if (oldLength < newLength) { // Il faut en charger plus
-      this.operationApiService.getOperations(oldLength + 1, newLength - oldLength, (operations: any) => {
+      this.operationApiService.getByStartAndQuantity(oldLength + 1, newLength - oldLength, (operations) => {
         console.log('next', operations);
         if (operations.length === 0) {
           console.log('stop');
@@ -72,7 +73,7 @@ export class OperationsComponent implements OnInit {
       });
     } else {
       for (let i = this.operations.length - 1; i >= newLength; i--) {
-        this.operations.pop(this.operations[i]);
+        this.operations.pop();
       }
     }
   }
