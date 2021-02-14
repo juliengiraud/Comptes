@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/user.model';
 import { UserApiService } from 'src/app/services/api/user.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   user: User = new User();
 
   constructor(private userApiService: UserApiService,
-              public authService: AuthService) { }
+              public authService: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -22,7 +24,9 @@ export class LoginComponent implements OnInit {
     console.log('login', this.user);
     this.userApiService.login(this.user, (data: any) => {
       console.log('Connexion réussie', data);
-      this.authService.setUser(data);
+      this.authService.setUser(data).then(() => {
+        this.router.navigate(['home']);
+      });
     }, (err) => {
       if (err.error.error === 'CONNECTION_FAILED') {
         console.log('Login ou mot de passe incorrect');
