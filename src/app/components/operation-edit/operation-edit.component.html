@@ -25,6 +25,7 @@
           [id]="'entree_' + id"
           (change)="updateParameter(operation, 'montant', getNewMontantFromSigne(operation, 1))"
           [checked]="operation.montant >= 0"
+          [disabled]="operation.montant == null"
       >
       <label [for]="'entree_' + id">Entrée</label>
       <input
@@ -33,6 +34,7 @@
           [id]="'sortie_' + id"
           (change)="updateParameter(operation, 'montant', getNewMontantFromSigne(operation, -1))"
           [checked]="operation.montant < 0"
+          [disabled]="operation.montant == null"
       >
       <label [for]="'sortie_' + id">Sortie</label>
     </div>

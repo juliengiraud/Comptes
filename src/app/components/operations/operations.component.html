@@ -6,7 +6,8 @@
     <app-operation-edit
         [class.none]="operation.edit !== true"
         [operation]="operation"
-        [id]="i"
+        [id]="'operations_' + i"
+        (update)="updateOnlineOperation($event)"
     ></app-operation-edit>
   </ng-container>
 </div>

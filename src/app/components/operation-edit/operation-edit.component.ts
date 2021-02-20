@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { OperationApiService } from 'src/app/services/api/operation.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Operation } from 'src/app/model/operation.model';
 
 @Component({
@@ -10,9 +9,11 @@ import { Operation } from 'src/app/model/operation.model';
 export class OperationEditComponent implements OnInit {
 
   @Input() operation: Operation;
-  @Input() id: number;
+  @Input() id: string;
 
-  constructor(private operationApiService: OperationApiService) { }
+  @Output() update: EventEmitter<any> = new EventEmitter();
+
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -32,11 +33,7 @@ export class OperationEditComponent implements OnInit {
   updateParameter(operation: Operation, key: string, value: any): void {
     const lastValue = operation[key];
     operation[key] = value;
-    this.operationApiService.update(operation, () => {
-    }, (err: any) => {
-      operation[key] = lastValue;
-      console.log(err);
-    });
+    this.update.emit({operation, key, lastValue});
   }
 
 }

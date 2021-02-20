@@ -6,3 +6,18 @@
   flex-direction: column;
   align-items: center;
 }
+
+.form-container {
+  margin-bottom: 2em;
+
+  .form-element {
+    margin-bottom: 1em;
+    display: flex;
+    align-items: center;
+
+    .form-element-title {
+      margin-right: 0.6em;
+    }
+  }
+}
+

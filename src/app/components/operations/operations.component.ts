@@ -15,7 +15,7 @@ export class OperationsComponent implements OnInit {
 
   @Input() set length_(length: number) {
     if (this.operations != null) {
-      this.updateOperations(this.length, length);
+      this.updateLocalOperations(this.length, length);
     }
     this.length = length;
   }
@@ -56,7 +56,7 @@ export class OperationsComponent implements OnInit {
     operation.edit = !(operation.edit === true);
   }
 
-  updateOperations(oldLength: number, newLength: number): void {
+  updateLocalOperations(oldLength: number, newLength: number): void {
     console.log('passage de', oldLength, 'à', newLength);
     if (oldLength < newLength) { // Il faut en charger plus
       this.operationApiService.getByStartAndQuantity(oldLength + 1, newLength - oldLength, (operations) => {
@@ -76,6 +76,14 @@ export class OperationsComponent implements OnInit {
         this.operations.pop();
       }
     }
+  }
+
+  updateOnlineOperation($event: {operation: Operation, key: string, lastValue: any}): void {
+    this.operationApiService.update($event.operation, () => {
+    }, (err: any) => {
+      $event.operation[$event.key] = $event.lastValue;
+      console.log(err);
+    });
   }
 
 }
