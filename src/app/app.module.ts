@@ -14,6 +14,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { OperationsComponent } from './components/operations/operations.component';
 import { OperationEditComponent } from './components/operation-edit/operation-edit.component';
 import { AllOperationsComponent } from './pages/all-operations/all-operations.component';
+import { OperationAddComponent } from './components/operation-add/operation-add.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AllOperationsComponent } from './pages/all-operations/all-operations.co
     LoginComponent,
     OperationsComponent,
     OperationEditComponent,
-    AllOperationsComponent
+    AllOperationsComponent,
+    OperationAddComponent
   ],
   imports: [
     BrowserModule,

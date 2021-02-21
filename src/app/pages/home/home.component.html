@@ -1,8 +1,12 @@
 <div class="container">
   <h1>Accueil</h1>
 
+  <h2>Nouvelle opération</h2>
+  <app-operation-add (update)="updateOperations()"></app-operation-add>
+
   <h2>Opérations récentes</h2>
   <app-operations
       [length_]="10"
+      [updateEvent]="updateEvent.asObservable()"
   ></app-operations>
 </div>

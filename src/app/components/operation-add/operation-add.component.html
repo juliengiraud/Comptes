@@ -1,0 +1,8 @@
+<app-operation-edit
+    [operation]="operation"
+    [id]="'operation-add'"
+></app-operation-edit>
+<button
+    (click)="createOperation()"
+    [disabled]="!operation.isValid()"
+>Envoyer</button>

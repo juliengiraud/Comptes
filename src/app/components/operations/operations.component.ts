@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Operation } from 'src/app/model/operation.model';
 import { OperationApiService } from 'src/app/services/api/operation.service';
 
@@ -7,11 +8,14 @@ import { OperationApiService } from 'src/app/services/api/operation.service';
   templateUrl: './operations.component.html',
   styleUrls: ['./operations.component.scss']
 })
-export class OperationsComponent implements OnInit {
+export class OperationsComponent implements OnInit, OnDestroy {
 
   start = 0;
   length: number;
   operations: Array<Operation>;
+  updateSubscriber: Subscription;
+
+  @Input() updateEvent: Observable<void>;
 
   @Input() set length_(length: number) {
     if (this.operations != null) {
@@ -31,6 +35,11 @@ export class OperationsComponent implements OnInit {
     }, (err) => {
       console.log('error', err);
     });
+    this.updateSubscriber = this.updateEvent.subscribe(() => this.ngOnInit());
+  }
+
+  ngOnDestroy(): void {
+    this.updateSubscriber.unsubscribe();
   }
 
   getDateString(dateStr: string): string {

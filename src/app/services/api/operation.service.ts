@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from '@ngx-pwa/local-storage';
@@ -37,6 +37,15 @@ export class OperationApiService extends GenericApiService {
     };
     const url = this.apiUrl + '/update';
     return this.doPut(url, params, next, error, complete);
+  }
+
+  create(operation: Operation, next?: (value?: Array<Operation>) => void,
+         error?: (error?: any) => void, complete?: () => void): Subscription {
+    const params = {
+      data: operation
+    };
+    const url = this.apiUrl + '/create';
+    return this.doPost(url, params, next, error, complete);
   }
 
 }
