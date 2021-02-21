@@ -1,5 +1,6 @@
 export class Operation {
 
+  id: number;
   date: string;
   montant: number;
   commentaire: string;
@@ -7,6 +8,7 @@ export class Operation {
   edit: boolean;
 
   constructor() {
+    this.id = null;
     this.date = new Date().toISOString().split('T')[0];
     this.montant = null;
     this.commentaire = null;

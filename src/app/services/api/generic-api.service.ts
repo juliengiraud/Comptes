@@ -30,13 +30,7 @@ export class GenericApiService {
 
   protected doGet(url: string, params: any, next?: (value?: any) => void,
                   error?: (error?: any) => void, complete?: () => void): Subscription {
-    let httpParams = new HttpParams();
-    if (params != null) {
-      for (const property of Object.keys(params)) {
-        httpParams = httpParams.set(property, params[property]);
-      }
-    }
-    return this.http.get<any>(url + '?' + httpParams.toString(), { headers: this.getHeaders() })
+    return this.http.get<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }
 
@@ -49,6 +43,12 @@ export class GenericApiService {
   protected doPut(url: string, params: any, next?: (value?: any) => void,
                   error?: (error?: any) => void, complete?: () => void): Subscription  {
     return this.http.put<any>(url, params, { headers: this.getHeaders() })
+        .subscribe(next, response => this.genericError(response, error), complete);
+  }
+
+  protected doDelete(url: string, params: any, next?: (value?: any) => void,
+                     error?: (error?: any) => void, complete?: () => void): Subscription  {
+    return this.http.delete<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }
 
@@ -65,6 +65,17 @@ export class GenericApiService {
     if (error != null) {
       error(response);
     }
+  }
+
+  getUrlWithParams(url: string, params: any): string {
+    if (params == null) {
+      return url;
+    }
+    let httpParams = new HttpParams();
+    for (const property of Object.keys(params)) {
+      httpParams = httpParams.set(property, params[property]);
+    }
+    return url + '?' + httpParams.toString();
   }
 
 }

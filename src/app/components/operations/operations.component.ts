@@ -83,6 +83,14 @@ export class OperationsComponent implements OnInit, OnDestroy {
     }
   }
 
+  checkUpdate($event?: {operation: Operation, key: string, lastValue: any}): void {
+    if ($event != null) {
+      this.updateOnlineOperation($event);
+    } else {
+      this.ngOnInit(); // delete
+    }
+  }
+
   updateOnlineOperation($event: {operation: Operation, key: string, lastValue: any}): void {
     this.operationApiService.update($event.operation, () => {
     }, (err) => {

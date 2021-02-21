@@ -48,4 +48,13 @@ export class OperationApiService extends GenericApiService {
     return this.doPost(url, params, next, error, complete);
   }
 
+  delete(operation: Operation, next?: (value?: any) => void,
+         error?: (error?: any) => void, complete?: () => void): Subscription {
+    const params = {
+      id: operation.id
+    };
+    const url = this.apiUrl + '/delete';
+    return this.doDelete(url, params, next, error, complete);
+  }
+
 }

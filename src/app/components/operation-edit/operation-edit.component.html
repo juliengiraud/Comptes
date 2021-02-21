@@ -1,5 +1,11 @@
 <div class="form-container">
 
+  <div *ngIf="showDelete" class="form-element">
+    <button
+        (click)="deleteOperation()"
+    >Supprimer</button>
+  </div>
+
   <div class="form-element">
     <div class="form-element-title">
       <label [for]="'date_' + id">Date</label>

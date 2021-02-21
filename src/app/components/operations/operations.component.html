@@ -7,7 +7,8 @@
         [class.none]="operation.edit !== true"
         [operation]="operation"
         [id]="'operations_' + i"
-        (update)="updateOnlineOperation($event)"
+        (update)="checkUpdate($event)"
+        [showDelete]="true"
     ></app-operation-edit>
   </ng-container>
 </div>
