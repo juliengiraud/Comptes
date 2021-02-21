@@ -21,36 +21,28 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin(): void {
-    console.log('login', this.user);
     this.userApiService.login(this.user, (data: any) => {
-      console.log('Connexion réussie', data);
       this.authService.setUser(data).then(() => {
         this.router.navigate(['home']);
       });
     }, (err) => {
       if (err.error.error === 'CONNECTION_FAILED') {
         console.log('Login ou mot de passe incorrect');
-      } else {
-        console.log('err', err);
       }
     });
   }
 
   doRegister(): void {
-    console.log('register', this.user);
     this.userApiService.register(this.user, (data: any) => {
-      console.log('Compte crée', data);
       this.authService.setUser(data);
     }, (err) => {
       if (err.error.error === 'USED_LOGIN') {
         console.log('Login déjà utilisé');
-      } else {
-        console.log('err', err);
       }
     });
   }
 
-  doLogout() {
+  doLogout(): void {
     this.authService.logout();
   }
 

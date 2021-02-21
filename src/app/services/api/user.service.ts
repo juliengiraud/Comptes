@@ -20,7 +20,8 @@ export class UserApiService extends GenericApiService {
     this.apiUrl = this.apiUrl + '/comptes';
   }
 
-  login(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+  login(user: User, next?: (value?: any) => void, error?: (error?: any) => void,
+        complete?: () => void): Subscription {
     const url = this.apiUrl + '/login';
     const params = {
       data: user
@@ -28,7 +29,8 @@ export class UserApiService extends GenericApiService {
     return this.doPost(url, params, next, error, complete);
   }
 
-  register(user: User, next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+  register(user: User, next?: (value?: any) => void, error?: (error?: any) => void,
+           complete?: () => void): Subscription {
     const url = this.apiUrl + '/register';
     const params = {
       data: user

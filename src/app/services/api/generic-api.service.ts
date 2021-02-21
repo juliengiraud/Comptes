@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { LocalStorage } from '@ngx-pwa/local-storage';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,10 @@ export class GenericApiService {
   protected doGet(url: string, params: any, next?: (value?: any) => void,
                   error?: (error?: any) => void, complete?: () => void): Subscription {
     let httpParams = new HttpParams();
-    for (const property of Object.keys(params)) {
-      httpParams = httpParams.set(property, params[property]);
+    if (params != null) {
+      for (const property of Object.keys(params)) {
+        httpParams = httpParams.set(property, params[property]);
+      }
     }
     return this.http.get<any>(url + '?' + httpParams.toString(), { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
@@ -50,10 +53,14 @@ export class GenericApiService {
   }
 
   genericError(response: HttpErrorResponse, error?: any): void {
+    if (!environment.production) {
+      console.log(response);
+    }
     if (response.status === 401) {
       this.localStorage.clear().subscribe(() => {
         this.router.navigate(['login']);
       });
+      return;
     }
     if (error != null) {
       error(response);

@@ -10,10 +10,9 @@ export class AuthService {
   private user: User;
 
   constructor(private localStorage: LocalStorage) {
-    this.localStorage.getItem("user").subscribe((user: User) => {
+    this.localStorage.getItem('user').subscribe((user: User) => {
       this.user = user;
     }, (err) => {
-      console.log(err);
       this.user = null;
     });
   }
@@ -28,7 +27,7 @@ export class AuthService {
 
   setUser(user: User): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.localStorage.setItem("user", user).subscribe(() => {
+      this.localStorage.setItem('user', user).subscribe(() => {
         this.user = user;
         resolve();
       }, (err) => {
@@ -39,23 +38,23 @@ export class AuthService {
 
   getUserPromise(): Promise<User> {
     return new Promise((resolve, reject) => {
-      this.localStorage.getItem("user").subscribe((user: User) => {
+      this.localStorage.getItem('user').subscribe((user: User) => {
         this.user = user;
         resolve(user);
       }, (err) => {
-        reject(err)
+        reject(err);
       });
     });
   }
 
   logout(): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.localStorage.removeItem("user").subscribe(() => {
+      this.localStorage.removeItem('user').subscribe(() => {
         this.user = null;
         resolve();
       }, (err) => {
         this.user = null;
-        reject(err)
+        reject(err);
       });
     });
   }

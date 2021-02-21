@@ -18,9 +18,10 @@ export class TestApiService extends GenericApiService {
     super(http, authService, router, localStorage);
   }
 
-  getAllPagesViewCount(next?: (value?: any) => void, error?: (error?: any) => void, complete?: () => void): Subscription {
+  getAllPagesViewCount(next?: (value?: any) => void, error?: (error?: any) => void,
+                       complete?: () => void): Subscription {
     const url = this.apiUrl + '/stats/getAllPagesViewCount';
-    return this.doGet(url, next, error, complete);
+    return this.doGet(url, null, next, error, complete);
   }
 
 }

@@ -13,9 +13,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
   start = 0;
   length: number;
   operations: Array<Operation>;
+
   updateSubscriber: Subscription;
 
-  @Input() updateEvent: Observable<void>;
+  @Input() set updateEvent_(updateEvent: Observable<void>) {
+    this.updateSubscriber = updateEvent.subscribe(() => this.ngOnInit());
+  }
 
   @Input() set length_(length: number) {
     if (this.operations != null) {
@@ -30,16 +33,14 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.operationApiService.getByStartAndQuantity(this.start, this.length, (operations) => {
-      console.log('next', operations);
       this.operations = operations;
-    }, (err) => {
-      console.log('error', err);
     });
-    this.updateSubscriber = this.updateEvent.subscribe(() => this.ngOnInit());
   }
 
   ngOnDestroy(): void {
-    this.updateSubscriber.unsubscribe();
+    if (this.updateSubscriber != null) {
+      this.updateSubscriber.unsubscribe();
+    }
   }
 
   getDateString(dateStr: string): string {
@@ -66,19 +67,14 @@ export class OperationsComponent implements OnInit, OnDestroy {
   }
 
   updateLocalOperations(oldLength: number, newLength: number): void {
-    console.log('passage de', oldLength, 'à', newLength);
     if (oldLength < newLength) { // Il faut en charger plus
       this.operationApiService.getByStartAndQuantity(oldLength + 1, newLength - oldLength, (operations) => {
-        console.log('next', operations);
         if (operations.length === 0) {
-          console.log('stop');
           this.tooMuch.emit();
         }
         for (const operation of operations) {
           this.operations.push(operation);
         }
-      }, (err) => {
-        console.log('error', err);
       });
     } else {
       for (let i = this.operations.length - 1; i >= newLength; i--) {
@@ -89,9 +85,8 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
   updateOnlineOperation($event: {operation: Operation, key: string, lastValue: any}): void {
     this.operationApiService.update($event.operation, () => {
-    }, (err: any) => {
+    }, (err) => {
       $event.operation[$event.key] = $event.lastValue;
-      console.log(err);
     });
   }
 

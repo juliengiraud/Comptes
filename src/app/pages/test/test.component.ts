@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { TestApiService } from 'src/app/services/api/test.service';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-test',
@@ -11,13 +10,11 @@ export class TestComponent implements OnInit {
 
   pagesViewCount: any;
 
-  constructor(private testApiService: TestApiService,
-              private authService: AuthService) { }
+  constructor(private testApiService: TestApiService) { }
 
   ngOnInit(): void {
     this.testApiService.getAllPagesViewCount((data) => {
       this.pagesViewCount = data;
-      console.log(data);
     });
   }
 

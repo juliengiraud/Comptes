@@ -19,15 +19,12 @@ export class OperationAddComponent implements OnInit {
   }
 
   createOperation(): void {
-    if (!this.operation.isValid()) { // Cas impossible normalement
+    if (!this.operation.isValid()) {
       return;
     }
-
     this.operationApiService.create(this.operation, () => {
       this.update.emit();
       this.operation = new Operation();
-    }, (err: any) => {
-      console.log(err);
     });
   }
 
