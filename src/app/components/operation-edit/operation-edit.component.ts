@@ -1,3 +1,4 @@
+import { Node } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Operation } from 'src/app/model/operation.model';
 import { OperationApiService } from 'src/app/services/api/operation.service';
@@ -20,19 +21,23 @@ export class OperationEditComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getNewMontantFromSigne(operation: Operation, newSigne: number): number {
+  eventAsValue(event: any): string {
+    return event.target.value;
+  }
+
+  getNewMontantFromSigne(operation: Operation, newSigne: number): string {
     let newMontant = Math.abs(operation.montant);
     if (newSigne < 0) {
       newMontant *= -1;
     }
-    return newMontant;
+    return newMontant + '';
   }
 
   getNewRemboursable(remboursable: string): string {
     return remboursable === '1' ? '0' : '1';
   }
 
-  updateParameter(operation: Operation, key: string, value: any): void {
+  updateParameter(operation: Operation, key: string, value: string): void {
     const lastValue = operation[key];
     operation[key] = value;
     this.update.emit({operation, key, lastValue});

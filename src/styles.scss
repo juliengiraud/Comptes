@@ -8,8 +8,6 @@
 }
 
 .form-container {
-  margin-bottom: 2em;
-
   .form-element {
     margin-bottom: 1em;
     display: flex;
@@ -21,3 +19,9 @@
   }
 }
 
+.separator {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding-top: 1px;
+  margin-left: 2em;
+  margin-right: 2em;
+}
