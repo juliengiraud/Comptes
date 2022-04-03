@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from '@ngx-pwa/local-storage';
@@ -12,16 +12,18 @@ import { GenericApiService } from './generic-api.service';
 })
 export class OperationApiService extends GenericApiService {
 
-  constructor(http: HttpClient,
-              authService: AuthService,
-              router: Router,
-              localStorage: LocalStorage) {
+  constructor(
+    protected http: HttpClient,
+    protected authService: AuthService,
+    protected router: Router,
+    protected localStorage: LocalStorage
+  ) {
     super(http, authService, router, localStorage);
     this.apiUrl = this.apiUrl + '/comptes';
   }
 
   getByStartAndQuantity(start: number, length: number, next?: (value?: Array<Operation>) => void,
-                        error?: (error?: any) => void, complete?: () => void): Subscription {
+                        error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription {
     const params = {
       start: start.toString(),
       length: length.toString()
@@ -31,7 +33,7 @@ export class OperationApiService extends GenericApiService {
   }
 
   update(operation: Operation, next?: (value?: Array<Operation>) => void,
-         error?: (error?: any) => void, complete?: () => void): Subscription {
+         error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription {
     const params = {
       data: operation
     };
@@ -40,7 +42,7 @@ export class OperationApiService extends GenericApiService {
   }
 
   create(operation: Operation, next?: (value?: Array<Operation>) => void,
-         error?: (error?: any) => void, complete?: () => void): Subscription {
+         error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription {
     const params = {
       data: operation
     };
@@ -49,12 +51,22 @@ export class OperationApiService extends GenericApiService {
   }
 
   delete(operation: Operation, next?: (value?: any) => void,
-         error?: (error?: any) => void, complete?: () => void): Subscription {
+         error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription {
     const params = {
       id: operation.id
     };
     const url = this.apiUrl + '/delete';
     return this.doDelete(url, params, next, error, complete);
+  }
+
+  getUserStats(
+    params: { year: number; month: number },
+    next?: (value: any) => void,
+    error?: (err?: HttpErrorResponse) => void,
+    complete?: () => void
+  ): Subscription {
+    const url = this.apiUrl + '/stats';
+    return this.doGet(url, params, next, error, complete);
   }
 
 }

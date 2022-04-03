@@ -14,10 +14,12 @@ export class GenericApiService {
   protected apiUrl = 'https://www.api.julien-giraud.fr';
   private headers: HttpHeaders = new HttpHeaders();
 
-  constructor(private http: HttpClient,
-              private authService: AuthService,
-              private router: Router,
-              private localStorage: LocalStorage) {
+  constructor(
+    protected http: HttpClient,
+    protected authService: AuthService,
+    protected router: Router,
+    protected localStorage: LocalStorage
+  ) {
   }
 
   private getHeaders(): HttpHeaders {
@@ -28,26 +30,31 @@ export class GenericApiService {
     return this.headers;
   }
 
-  protected doGet(url: string, params: any, next?: (value?: any) => void,
-                  error?: (error?: any) => void, complete?: () => void): Subscription {
+  protected doGet(
+    url: string,
+    params: any,
+    next?: (value?: any) => void,
+    error?: (err?: HttpErrorResponse) => void,
+    complete?: () => void
+  ): Subscription {
     return this.http.get<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }
 
   protected doPost(url: string, params: any, next?: (value?: any) => void,
-                   error?: (error?: any) => void, complete?: () => void): Subscription  {
+                   error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription  {
     return this.http.post<any>(url, params, { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }
 
   protected doPut(url: string, params: any, next?: (value?: any) => void,
-                  error?: (error?: any) => void, complete?: () => void): Subscription  {
+                  error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription  {
     return this.http.put<any>(url, params, { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }
 
   protected doDelete(url: string, params: any, next?: (value?: any) => void,
-                     error?: (error?: any) => void, complete?: () => void): Subscription  {
+                     error?: (err?: HttpErrorResponse) => void, complete?: () => void): Subscription  {
     return this.http.delete<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
         .subscribe(next, response => this.genericError(response, error), complete);
   }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorage } from '@ngx-pwa/local-storage';
@@ -12,15 +12,17 @@ import { GenericApiService } from './generic-api.service';
 })
 export class UserApiService extends GenericApiService {
 
-  constructor(http: HttpClient,
-              authService: AuthService,
-              router: Router,
-              localStorage: LocalStorage) {
+  constructor(
+    protected http: HttpClient,
+    protected authService: AuthService,
+    protected router: Router,
+    protected localStorage: LocalStorage
+  ) {
     super(http, authService, router, localStorage);
     this.apiUrl = this.apiUrl + '/comptes';
   }
 
-  login(user: User, next?: (value?: any) => void, error?: (error?: any) => void,
+  login(user: User, next?: (value?: any) => void, error?: (err?: HttpErrorResponse) => void,
         complete?: () => void): Subscription {
     const url = this.apiUrl + '/login';
     const params = {
@@ -29,7 +31,7 @@ export class UserApiService extends GenericApiService {
     return this.doPost(url, params, next, error, complete);
   }
 
-  register(user: User, next?: (value?: any) => void, error?: (error?: any) => void,
+  register(user: User, next?: (value?: any) => void, error?: (err?: HttpErrorResponse) => void,
            complete?: () => void): Subscription {
     const url = this.apiUrl + '/register';
     const params = {
