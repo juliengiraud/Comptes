@@ -5,6 +5,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AllOperationsComponent } from './pages/all-operations/all-operations.component';
+import { StatsComponent } from './pages/stats/stats.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,11 @@ const routes: Routes = [
   {
     path: 'all-operations',
     component: AllOperationsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'stats',
+    component: StatsComponent,
     canActivate: [AuthGuard]
   },
   {

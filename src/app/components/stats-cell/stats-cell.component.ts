@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { OperationApiService } from 'src/app/services/api/operation.service';
+import { Stats } from 'src/app/model/stats.model';
 
 @Component({
-  selector: 'app-stats',
-  templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss']
+  selector: 'app-stats-cell',
+  templateUrl: './stats-cell.component.html',
+  styleUrls: ['./stats-cell.component.scss']
 })
-export class StatsComponent implements OnInit {
+export class StatsCellComponent implements OnInit {
 
-  private stats: any;
+  stats: Stats;
+  Object = Object;
 
   constructor(
     private operationApiService: OperationApiService
@@ -26,6 +28,7 @@ export class StatsComponent implements OnInit {
     };
     this.operationApiService.getUserStats(params, (result) => {
       console.log(result);
+      this.stats = new Stats(result[0]);
     }, (err) => {
       console.log(err);
     });

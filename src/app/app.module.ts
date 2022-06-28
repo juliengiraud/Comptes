@@ -15,7 +15,8 @@ import { OperationsComponent } from './components/operations/operations.componen
 import { OperationEditComponent } from './components/operation-edit/operation-edit.component';
 import { AllOperationsComponent } from './pages/all-operations/all-operations.component';
 import { OperationAddComponent } from './components/operation-add/operation-add.component';
-import { StatsComponent } from './components/stats/stats.component';
+import { StatsCellComponent } from './components/stats-cell/stats-cell.component';
+import { StatsComponent } from './pages/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { StatsComponent } from './components/stats/stats.component';
     OperationEditComponent,
     AllOperationsComponent,
     OperationAddComponent,
+    StatsCellComponent,
     StatsComponent
   ],
   imports: [
