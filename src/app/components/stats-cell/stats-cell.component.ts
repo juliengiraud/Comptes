@@ -1,37 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { OperationApiService } from 'src/app/services/api/operation.service';
 import { Stats } from 'src/app/model/stats.model';
 
 @Component({
-  selector: 'app-stats-cell',
-  templateUrl: './stats-cell.component.html',
-  styleUrls: ['./stats-cell.component.scss']
+    selector: 'app-stats-cell',
+    templateUrl: './stats-cell.component.html',
+    styleUrls: ['./stats-cell.component.scss']
 })
 export class StatsCellComponent implements OnInit {
 
-  stats: Stats;
-  Object = Object;
+    stats: Stats;
+    mode = ''; // global || month
+    Object = Object;
 
-  constructor(
-    private operationApiService: OperationApiService
-  ) { }
+    @Input() year: number;
+    @Input() month: number;
 
-  ngOnInit(): void {
-    this.loadStats();
-  }
+    constructor(
+        private operationApiService: OperationApiService
+    ) { }
 
-  loadStats(): void {
-    const date = new Date();
-    const params = {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1
-    };
-    this.operationApiService.getUserStats(params, (result) => {
-      console.log(result);
-      this.stats = new Stats(result[0]);
-    }, (err) => {
-      console.log(err);
-    });
-  }
+    ngOnInit(): void {
+        this.loadStats();
+        this.mode = this.year == null || this.month == null ? 'global' : 'month';
+    }
+
+    loadStats(): void {
+        const params = {
+            year: this.year,
+            month: this.month
+        };
+        this.operationApiService.getUserStats(params, (result) => {
+            this.stats = new Stats(result[0]);
+        }, (err) => {
+            console.log(err);
+        });
+    }
 
 }

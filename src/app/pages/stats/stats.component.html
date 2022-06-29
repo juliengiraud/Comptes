@@ -1,5 +1,19 @@
 <div class="container">
-  <div class="year-container">
-    <app-stats-cell></app-stats-cell>
+  <div>
+    <p class="recap">Récapitulatif</p>
+    <app-stats-cell
+      [year]="null"
+      [month]="null"
+    ></app-stats-cell>
+  </div>
+  <div class="year-container" *ngFor="let year of getYears()">
+    <p class="recap">{{year}}</p>
+    <div class="month-container" *ngFor="let month of monthsByYear.get(year)">
+      <span class="recap">{{monthsCaption[month]}} {{year}}</span>
+      <app-stats-cell
+        [year]="year"
+        [month]="month"
+      ></app-stats-cell>
+    </div>
   </div>
 </div>
