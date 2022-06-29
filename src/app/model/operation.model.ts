@@ -2,10 +2,10 @@ export class Operation {
 
   id: number;
   date: string;
-  montant: number;
+  montant: string;
   commentaire: string;
   remboursable: string; // '0' ou '1' -> boolean MySQL
-  edit: boolean;
+  editing = false;
 
   constructor() {
     this.id = null;

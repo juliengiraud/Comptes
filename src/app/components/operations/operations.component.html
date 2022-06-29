@@ -1,15 +1,45 @@
 <div>
-  <ng-container *ngFor="let operation of operations; let i = index">
-    <p>{{getDateString(operation.date)}} : {{operation.montant}} € ({{operation.commentaire}}) {{operation.remboursable === '1' ? 'remboursable' : ''}}
-      <button (click)="updateEditMode(operation)">{{operation.edit !== true ? 'Modifier ↓' : 'Cacher ↑'}}</button>
-    </p>
-    <app-operation-edit
-        [class.none]="operation.edit !== true"
-        [operation]="operation"
-        [id]="'operations_' + i"
-        (update)="checkUpdate($event)"
-        [showDelete]="true"
-    ></app-operation-edit>
-    <div class="separator"></div>
-  </ng-container>
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Montant</th>
+      <th>Commentaire</th>
+      <th class="refund-head">Remboursable</th>
+    </tr>
+    <ng-container *ngFor="let operation of operations; let i = index">
+      <tr>
+        <td>
+          <input
+            class="date-input"
+            type="date"
+            [ngModel]="operation.date"
+            (ngModelChange)="updateOperation(operation, 'date', $event)"
+          ></td>
+        <td>
+          <input
+            class="amount-input"
+            type="number"
+            step="0.01"
+            [value]="operation.montant"
+            (change)="updateOperation(operation, 'montant', eventAsValue($event))"
+          > €</td>
+        <td>
+          <input
+            class="note-input"
+            type="text"
+            [value]="operation.commentaire"
+            (focusout)="updateOperation(operation, 'commentaire', eventAsValue($event))"
+            (keyup.enter)="updateOperation(operation, 'commentaire', eventAsValue($event))"
+          ></td>
+        <td>
+          <input
+            class="refund-input"
+            type="checkbox"
+            [checked]="operation.remboursable === '1'"
+            (change)="updateOperation(operation, 'remboursable', getNewRemboursable(operation.remboursable))"
+          ></td>
+        <td><div class="animation" [class.lds-ring]="operation.editing"><div></div><div></div><div></div><div></div></div></td>
+      </tr>
+    </ng-container>
+  </table>
 </div>

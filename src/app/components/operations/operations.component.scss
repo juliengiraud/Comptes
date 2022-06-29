@@ -1,3 +1,65 @@
-.none {
-  display: none;
+.refund-head {
+  position: absolute;
+}
+
+.date-input {
+  margin-right: 1em;
+}
+
+.amount-input {
+  width: 5em;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+.note-input {
+  margin-left: 1em;
+}
+
+.refund-input {
+  margin-left: 1em;
+  margin-right: 1.5em;
+  transform: scale(1.5);
+}
+
+.animation {
+  --animation-color: #aaa;
+  --animation-size: 18px;
+  display: inline-block;
+  position: relative;
+  width: var(--animation-size);
+  height: var(--animation-size);
+}
+
+.lds-ring {
+  div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: calc(var(--animation-size) * 0.8);
+    height: calc(var(--animation-size) * 0.8);
+    margin: calc(var(--animation-size) * 0.1);
+    border: calc(var(--animation-size) * 0.1) solid var(--animation-color);
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--animation-color) transparent transparent transparent;
+  }
+  div:nth-child(1) {
+    animation-delay: -0.45s;
+  }
+  div:nth-child(2) {
+    animation-delay: -0.3s;
+  }
+  div:nth-child(3) {
+    animation-delay: -0.15s;
+  }
+}
+
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

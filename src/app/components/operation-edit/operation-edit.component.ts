@@ -16,6 +16,8 @@ export class OperationEditComponent implements OnInit {
 
   @Output() update: EventEmitter<any> = new EventEmitter();
 
+  parseFloat = parseFloat;
+
   constructor(private operationApiService: OperationApiService) { }
 
   ngOnInit(): void {
@@ -26,7 +28,7 @@ export class OperationEditComponent implements OnInit {
   }
 
   getNewMontantFromSigne(operation: Operation, newSigne: number): string {
-    let newMontant = Math.abs(operation.montant);
+    let newMontant = Math.abs(parseFloat(operation.montant));
     if (newSigne < 0) {
       newMontant *= -1;
     }

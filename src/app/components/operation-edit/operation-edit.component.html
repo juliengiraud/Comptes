@@ -30,7 +30,7 @@
           [name]="'signe_' + id"
           [id]="'entree_' + id"
           (change)="updateParameter(operation, 'montant', getNewMontantFromSigne(operation, 1))"
-          [checked]="operation.montant >= 0"
+          [checked]="parseFloat(operation.montant) >= 0"
           [disabled]="operation.montant == null"
       >
       <label [for]="'entree_' + id">Entrée</label>
@@ -39,7 +39,7 @@
           [name]="'signe_' + id"
           [id]="'sortie_' + id"
           (change)="updateParameter(operation, 'montant', getNewMontantFromSigne(operation, -1))"
-          [checked]="operation.montant < 0"
+          [checked]="parseFloat(operation.montant) < 0"
           [disabled]="operation.montant == null"
       >
       <label [for]="'sortie_' + id">Sortie</label>
