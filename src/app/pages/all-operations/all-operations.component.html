@@ -6,7 +6,7 @@
       (tooMuch)="showLess()"
   ></app-operations>
 
-  <button (click)="showMore()">Afficher plus ↓</button>
-  <button (click)="showLess()" [disabled]="length < 2">Afficher moins ↑</button>
+  <button class="button" (click)="showMore()">+</button>
+  <button class="button" (click)="showLess()" [disabled]="length < 2">-</button>
 
 </div>

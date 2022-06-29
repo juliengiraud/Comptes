@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-stats',
@@ -27,21 +27,28 @@ export class StatsComponent implements OnInit {
         'Décembre'
     ];
 
+    @Input() onlyRecap: boolean;
+
     constructor() { }
 
     ngOnInit(): void {
-        const date = new Date();
-        this.firstYear = date.getFullYear();
-        this.firstMonth = date.getMonth() + 1;
-        this.fillYearsAndMonths();
+        if (this.onlyRecap == null || !this.onlyRecap) {
+            this.fillYearsAndMonths();
+        }
     }
 
     fillYearsAndMonths(): void {
+        const date = new Date();
+        this.firstYear = date.getFullYear();
+        this.firstMonth = date.getMonth() + 1;
         const yearsSize = 2;
-        for (let currentYear = this.firstYear; currentYear > this.firstYear - yearsSize; currentYear--) {
+        for (let currentYear = this.firstYear; currentYear >= 2018; currentYear--) {
             const months = [];
             const lastMonthOfYear = currentYear === this.firstYear ? this.firstMonth : 12;
             for (let month = 0; month < lastMonthOfYear; month++) {
+                if (currentYear === 2018 && month >= 8) {
+                    continue;
+                }
                 months.push(lastMonthOfYear - month);
             }
             this.monthsByYear.set(currentYear, months);

@@ -1,8 +1,8 @@
 <div class="container">
   <h1>Accueil</h1>
 
-  <h2>Test stats</h2>
-  <app-stats></app-stats>
+  <h2>Statistiques</h2>
+  <app-stats [onlyRecap]="true"></app-stats>
 
   <h2>Nouvelle opération</h2>
   <app-operation-add (update)="updateOperations()"></app-operation-add>
