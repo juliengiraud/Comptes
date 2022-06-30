@@ -1,5 +1,21 @@
-.refund-head {
-  position: absolute;
+table {
+  border-spacing: 0;
+}
+
+th, td {
+  white-space: nowrap;
+}
+
+th {
+  padding-bottom: 1em;
+}
+
+tbody td {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-color: #d6d6d6;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 .date-input {

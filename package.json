@@ -21,6 +21,7 @@
     "@angular/router": "~10.0.2",
     "@ngx-pwa/local-storage": "^11.0.1",
     "bulma": "^0.9.1",
+    "normalize.css": "^8.0.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"

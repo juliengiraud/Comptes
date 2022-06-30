@@ -37,8 +37,13 @@ export class GenericApiService {
         error?: (err: HttpErrorResponse) => void,
         complete?: () => void
     ): Subscription {
-        return this.http.get<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
-            .subscribe(next, response => this.genericError(response, error), complete);
+        return this.http.get(
+            this.getUrlWithParams(url, params), { headers: this.getHeaders() }
+        ).subscribe(
+            next,
+            response => this.genericError(response, error, complete),
+            complete
+        );
     }
 
     protected doPost(
@@ -48,17 +53,29 @@ export class GenericApiService {
         error?: (err: HttpErrorResponse) => void,
         complete?: () => void
     ): Subscription {
-        return this.http.post<any>(url, params, { headers: this.getHeaders() })
-            .subscribe(next, response => this.genericError(response, error), complete);
+        return this.http.post(
+            url, params, { headers: this.getHeaders() }
+        ).subscribe(
+            next,
+            response => this.genericError(response, error, complete),
+            complete
+        );
     }
 
     protected doPut(
         url: string,
         params: any,
         next?: (value?: any) => void,
-        error?: (err: HttpErrorResponse) => void, complete?: () => void): Subscription {
-        return this.http.put<any>(url, params, { headers: this.getHeaders() })
-            .subscribe(next, response => this.genericError(response, error), complete);
+        error?: (err: HttpErrorResponse) => void,
+        complete?: () => void
+    ): Subscription {
+        return this.http.put(
+            url, params, { headers: this.getHeaders() }
+        ).subscribe(
+            next,
+            response => this.genericError(response, error, complete),
+            complete
+        );
     }
 
     protected doDelete(
@@ -68,11 +85,20 @@ export class GenericApiService {
         error?: (err?: HttpErrorResponse) => void,
         complete?: () => void
     ): Subscription {
-        return this.http.delete<any>(this.getUrlWithParams(url, params), { headers: this.getHeaders() })
-            .subscribe(next, response => this.genericError(response, error), complete);
+        return this.http.delete(
+            this.getUrlWithParams(url, params), { headers: this.getHeaders() }
+        ).subscribe(
+            next,
+            response => this.genericError(response, error, complete),
+            complete
+        );
     }
 
-    genericError(response: HttpErrorResponse, error?: any): void {
+    genericError(
+        response: HttpErrorResponse,
+        error: (err: HttpErrorResponse) => void,
+        complete: () => void
+    ): void {
         if (!environment.production) {
             console.log(response);
         }
@@ -84,6 +110,7 @@ export class GenericApiService {
         }
         if (error != null) {
             error(response);
+            complete();
         }
     }
 
@@ -99,5 +126,4 @@ export class GenericApiService {
         }
         return url + '?' + httpParams.toString();
     }
-
 }

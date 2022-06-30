@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { Operation } from 'src/app/model/operation.model';
 import { OperationApiService } from 'src/app/services/api/operation.service';
@@ -9,6 +9,8 @@ import { OperationApiService } from 'src/app/services/api/operation.service';
     styleUrls: ['./operations.component.scss']
 })
 export class OperationsComponent implements OnInit, OnDestroy {
+
+    @HostBinding('class') class = 'scroll-tab';
 
     start = 0;
     length: number;
@@ -82,6 +84,9 @@ export class OperationsComponent implements OnInit, OnDestroy {
     updateOperation(operation: Operation, key: string, event: string): void {
         const newValue = event;
         const lastValue = operation[key];
+        if (lastValue === newValue) {
+            return;
+        }
         operation[key] = newValue;
         if (key === 'montant') {
             operation.montant = parseFloat(newValue).toFixed(2);
