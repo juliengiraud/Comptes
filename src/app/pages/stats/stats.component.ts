@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { OperationApiService } from 'src/app/services/api/operation.service';
 
 @Component({
     selector: 'app-stats',
@@ -13,23 +14,17 @@ export class StatsComponent implements OnInit {
     years: number[] = null;
     monthsCaption = [
         '',
-        'Janvier',
-        'Février',
-        'Mars',
-        'Avril',
-        'Mai',
-        'Juin',
-        'Juillet',
-        'Août',
-        'Septembre',
-        'Octobre',
-        'Novembre',
-        'Décembre'
+        'Janvier', 'Février', 'Mars',
+        'Avril', 'Mai', 'Juin',
+        'Juillet', 'Août', 'Septembre',
+        'Octobre', 'Novembre', 'Décembre'
     ];
 
     @Input() onlyRecap: boolean;
 
-    constructor() { }
+    constructor(
+        private operationApiService: OperationApiService
+    ) { }
 
     ngOnInit(): void {
         if (this.onlyRecap == null || !this.onlyRecap) {
@@ -38,22 +33,25 @@ export class StatsComponent implements OnInit {
     }
 
     fillYearsAndMonths(): void {
-        const date = new Date();
-        this.firstYear = date.getFullYear();
-        this.firstMonth = date.getMonth() + 1;
-        const yearsSize = 2;
-        for (let currentYear = this.firstYear; currentYear >= 2018; currentYear--) {
-            const months = [];
-            const lastMonthOfYear = currentYear === this.firstYear ? this.firstMonth : 12;
-            for (let month = 0; month < lastMonthOfYear; month++) {
-                if (currentYear === 2018 && month >= 8) {
-                    continue;
+        this.operationApiService.getOldestDate((oldestDate) => {
+            const oldestYear = parseInt(oldestDate.date.substring(0, 4), 10);
+            const oldestMonth = parseInt(oldestDate.date.substring(5, 7), 10) - 1;
+            const date = new Date();
+            this.firstYear = date.getFullYear();
+            this.firstMonth = date.getMonth() + 1;
+            for (let currentYear = this.firstYear; currentYear >= oldestYear; currentYear--) {
+                const months = [];
+                const oldestMonthOfYear = currentYear === this.firstYear ? this.firstMonth : 12;
+                for (let month = 0; month < oldestMonthOfYear; month++) {
+                    if (currentYear === oldestYear && month >= oldestMonth) {
+                        continue;
+                    }
+                    months.push(oldestMonthOfYear - month);
                 }
-                months.push(lastMonthOfYear - month);
+                this.monthsByYear.set(currentYear, months);
             }
-            this.monthsByYear.set(currentYear, months);
-        }
-        this.years = Array.from(this.monthsByYear.keys());
+            this.years = Array.from(this.monthsByYear.keys());
+        });
     }
 
     getYears(): number[] {

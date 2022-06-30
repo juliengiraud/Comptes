@@ -85,4 +85,13 @@ export class OperationApiService extends GenericApiService {
         const url = this.apiUrl + '/stats';
         return this.doGet(url, params, next, error, complete);
     }
+
+    getOldestDate(
+        next?: (value: { date: string }) => void,
+        error?: (err?: HttpErrorResponse) => void,
+        complete?: () => void
+    ): Subscription {
+        const url = this.apiUrl + '/oldestDate';
+        return this.doGet(url, null, next, error, complete);
+    }
 }
