@@ -52,3 +52,12 @@ table {
   max-width: 100%;
   overflow-x: auto;
 }
+
+.swal-form-input {
+  margin-top: 1em
+}
+
+.swal-form-input input[type="checkbox"] {
+  height: auto;
+  transform: scale(1.5);
+}

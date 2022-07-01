@@ -15,6 +15,16 @@ tbody td {
   vertical-align: top;
 }
 
+.add {
+  padding: 3px 9px;
+  background-color: #eee;
+  margin-right: 1em;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline;
+  vertical-align: bottom;
+}
+
 .date-input {
   margin-right: 0.5em;
 }
@@ -44,6 +54,7 @@ tbody td {
 .delete {
   padding: 3px;
   cursor: pointer;
+  display: inline;
 }
 
 .animation {
@@ -54,6 +65,18 @@ tbody td {
   width: var(--animation-size);
   height: var(--animation-size);
   transform: translateY(3px);
+}
+
+.animation-left {
+  margin-right: 1.5em;
+  margin-top: 4px;
+  display: inline;
+  vertical-align: sub;
+}
+
+.animation-right {
+  margin-left: 0.5em;
+  margin-top: 4px;
 }
 
 .lds-ring {

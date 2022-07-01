@@ -119,15 +119,64 @@ export class OperationsComponent implements OnInit, OnDestroy {
             title: 'Attention',
             html: 'Êtes-vous sûr de vouloir supprimer cette opération ?',
             icon: 'warning',
-            showDenyButton: true,
             confirmButtonText: 'Oui',
             denyButtonText: 'Non',
+            showDenyButton: true
         }).then((result) => {
             if (result.isConfirmed) {
+                operation.updating.delete = true;
                 this.operationApiService.delete(operation, () => {
                     this.ngOnInit();
                 });
             }
         });
+    }
+
+    addNewLine(operation: Operation): void {
+        Swal.fire({
+            title: 'Nouvelle opération',
+            html: this.getNewOperationForm(operation),
+            confirmButtonText: 'Valider',
+            focusConfirm: false,
+            preConfirm: () => {
+                const date = (Swal.getPopup().querySelector('#swal-date-input') as any).value;
+                const amount = (Swal.getPopup().querySelector('#swal-amount-input') as any).value;
+                const comment = (Swal.getPopup().querySelector('#swal-comment-input') as any).value;
+                const refund = (Swal.getPopup().querySelector('#swal-refund-input') as any).checked;
+                if (!date || !amount || !comment) {
+                    Swal.showValidationMessage(`Veuillez remplir tous les champs`);
+                }
+                return { date, montant: parseFloat(amount), commentaire: comment, remboursable: refund ? '1' : '0' };
+            }
+        }).then((result: any) => {
+            const newOperation = new Operation(result.value);
+            operation.updating.create = true;
+            this.operationApiService.create(newOperation, () => {
+                this.ngOnInit();
+            });
+        });
+    }
+
+    getNewOperationForm(operation: Operation): string {
+        const dateId = 'swal-date-input';
+        const amountId = 'swal-amount-input';
+        const commentId = 'swal-comment-input';
+        const refundId = 'swal-refund-input';
+        return `<div class="swal-form-input">
+                  <label for="${dateId}">Date</label><br>
+                  <input type="date" id="${dateId}" class="swal2-input" value="${operation.date}">
+                </div>
+                <div class="swal-form-input">
+                  <label for="${amountId}">Montant</label><br>
+                  <input type="number" step="0.01" id="${amountId}" class="swal2-input">
+                </div>
+                <div class="swal-form-input">
+                  <label for="${commentId}">Commentaire</label><br>
+                  <input type="text" id="${commentId}" class="swal2-input">
+                </div>
+                <div class="swal-form-input">
+                  <label for="${refundId}">Remboursable</label><br>
+                  <input type="checkbox" id="${refundId}" class="swal2-input">
+                </div>`;
     }
 }

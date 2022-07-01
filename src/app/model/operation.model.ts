@@ -9,10 +9,12 @@ export class Operation {
         date: false,
         montant: false,
         commentaire: false,
-        remboursable: false
+        remboursable: false,
+        create: false,
+        delete: false
     };
 
-    constructor(data?: Operation) {
+    constructor(data?: any) {
         this.id = data?.id;
         this.date = data?.date || new Date().toISOString().split('T')[0];
         this.montant = data?.montant;

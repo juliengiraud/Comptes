@@ -2,6 +2,7 @@
   <table>
     <thead>
       <tr>
+        <th></th>
         <th>Date</th>
         <th>Montant</th>
         <th>Commentaire</th>
@@ -11,6 +12,10 @@
     <tbody>
       <ng-container *ngFor="let operation of operations; let i = index">
         <tr>
+          <td>
+            <div class="animation animation-left" [class.lds-ring]="operation.updating['create']"><div></div><div></div><div></div><div></div></div>
+            <div class="add" (click)="addNewLine(operation)">+</div>
+          </td>
           <td>
             <input
               class="date-input"
@@ -50,7 +55,10 @@
             >
             <div class="animation" [class.lds-ring]="operation.updating['remboursable']"><div></div><div></div><div></div><div></div></div>
           </td>
-          <td><div class="delete" (click)="deleteOperation(operation)">❌</div></td>
+          <td>
+            <div class="delete" (click)="deleteOperation(operation)">❌</div>
+            <div class="animation animation-right" [class.lds-ring]="operation.updating['delete']"><div></div><div></div><div></div><div></div></div>
+          </td>
         </tr>
       </ng-container>
     </tbody>
