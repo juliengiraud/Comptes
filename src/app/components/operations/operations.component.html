@@ -17,15 +17,20 @@
               type="date"
               [ngModel]="operation.date"
               (ngModelChange)="updateOperation(operation, 'date', $event)"
-            ></td>
+            >
+            <div class="animation" [class.lds-ring]="operation.updating['date']"><div></div><div></div><div></div><div></div></div>
+          </td>
           <td>
-            <input
-              class="amount-input"
-              type="number"
-              step="0.01"
-              [value]="operation.montant"
-              (change)="updateOperation(operation, 'montant', eventAsValue($event))"
-            > €</td>
+            <div class="amount-input">
+              <input
+                type="number"
+                step="0.01"
+                [value]="operation.montant"
+                (change)="updateOperation(operation, 'montant', eventAsValue($event))"
+              > €
+            </div>
+            <div class="animation" [class.lds-ring]="operation.updating['montant']"><div></div><div></div><div></div><div></div></div>
+          </td>
           <td>
             <input
               class="note-input"
@@ -33,15 +38,19 @@
               [value]="operation.commentaire"
               (focusout)="updateOperation(operation, 'commentaire', eventAsValue($event))"
               (keyup.enter)="updateOperation(operation, 'commentaire', eventAsValue($event))"
-            ></td>
+            >
+            <div class="animation" [class.lds-ring]="operation.updating['commentaire']"><div></div><div></div><div></div><div></div></div>
+          </td>
           <td>
             <input
               class="refund-input"
               type="checkbox"
               [checked]="operation.remboursable === '1'"
               (change)="updateOperation(operation, 'remboursable', getNewRemboursable(operation.remboursable))"
-            ></td>
-          <td><div class="animation" [class.lds-ring]="operation.editing"><div></div><div></div><div></div><div></div></div></td>
+            >
+            <div class="animation" [class.lds-ring]="operation.updating['remboursable']"><div></div><div></div><div></div><div></div></div>
+          </td>
+          <td><div class="delete" (click)="deleteOperation(operation)">❌</div></td>
         </tr>
       </ng-container>
     </tbody>

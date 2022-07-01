@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateOperations(): void {
+    console.log("update emit reçu");
     this.updateEvent.next();
   }
 

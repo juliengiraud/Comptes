@@ -1,7 +1,8 @@
 import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { Operation } from 'src/app/model/operation.model';
 import { OperationApiService } from 'src/app/services/api/operation.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-operations',
@@ -18,8 +19,12 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
     updateSubscriber: Subscription;
 
-    @Input() set updateEvent_(updateEvent: Observable<void>) {
-        this.updateSubscriber = updateEvent.subscribe(() => this.ngOnInit());
+    @Input() set updateEvent_(updateEvent: Subject<void>) {
+        if (updateEvent != null && this.updateSubscriber == null) {
+            this.updateSubscriber = updateEvent.subscribe(() => {
+                this.ngOnInit();
+            });
+        }
     }
 
     @Input() set length_(length: number) {
@@ -35,7 +40,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.operationApiService.getByStartAndQuantity(this.start, this.length, (operations) => {
-            this.operations = operations;
+            this.operations = operations.map((o) => new Operation(o));
         });
     }
 
@@ -71,7 +76,7 @@ export class OperationsComponent implements OnInit, OnDestroy {
                     this.tooMuch.emit();
                 }
                 for (const operation of operations) {
-                    this.operations.push(operation);
+                    this.operations.push(new Operation(operation));
                 }
             });
         } else {
@@ -91,13 +96,13 @@ export class OperationsComponent implements OnInit, OnDestroy {
         if (key === 'montant') {
             operation.montant = parseFloat(newValue).toFixed(2);
         }
-        operation.editing = true;
+        operation.updating[key] = true;
         this.operationApiService.update(operation, () => {
         }, (err) => {
             console.log(err);
             operation[key] = lastValue;
         }, () => {
-            operation.editing = false;
+            operation.updating[key] = false;
         });
     }
 
@@ -107,5 +112,22 @@ export class OperationsComponent implements OnInit, OnDestroy {
 
     getNewRemboursable(remboursable: string): string {
         return remboursable === '1' ? '0' : '1';
+    }
+
+    deleteOperation(operation: Operation): void {
+        Swal.fire({
+            title: 'Attention',
+            html: 'Êtes-vous sûr de vouloir supprimer cette opération ?',
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: 'Oui',
+            denyButtonText: 'Non',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.operationApiService.delete(operation, () => {
+                    this.ngOnInit();
+                });
+            }
+        });
     }
 }
