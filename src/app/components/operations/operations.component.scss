@@ -15,10 +15,14 @@ tbody td {
   vertical-align: top;
 }
 
+.special-transform {
+  transform: translateX(-50%);
+}
+
 .add {
+  margin-right: 0.5em;
   padding: 3px 9px;
   background-color: #eee;
-  margin-right: 1em;
   border-radius: 4px;
   cursor: pointer;
   display: inline;
@@ -30,24 +34,24 @@ tbody td {
 }
 
 .amount-input {
-  margin-left: 0.5em;
+  // margin-left: 0.5em;
   margin-right: 0.5em;
   display: inline;
 
   input {
     width: 5em;
     text-align: right;
+    margin-right: 0.2em;
   }
 }
 
-.note-input {
-  margin-left: 0.5em;
+.comment-input {
   margin-right: 0.5em;
 }
 
 .refund-input {
-  margin-left: 0.75em;
-  margin-right: 0.75em;
+  margin-left: 0.2em;
+  margin-right: 0.5em;
   transform: scale(1.5);
 }
 
@@ -55,6 +59,7 @@ tbody td {
   padding: 3px;
   cursor: pointer;
   display: inline;
+  margin-right: 0.5em;
 }
 
 .animation {
@@ -65,18 +70,6 @@ tbody td {
   width: var(--animation-size);
   height: var(--animation-size);
   transform: translateY(3px);
-}
-
-.animation-left {
-  margin-right: 1.5em;
-  margin-top: 4px;
-  display: inline;
-  vertical-align: sub;
-}
-
-.animation-right {
-  margin-left: 0.5em;
-  margin-top: 4px;
 }
 
 .lds-ring {
@@ -109,5 +102,89 @@ tbody td {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.lines-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lines-container .line:first-child,
+.lines-container .line:last-child {
+  border: none;
+}
+
+.line {
+  display: flex;
+  border-color: #d6d6d6;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  padding-bottom: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+.line-element:nth-child(1) {
+  width: 4em;
+}
+
+.line-element:nth-child(2) {
+  width: 11em;
+}
+
+.line-element:nth-child(3) {
+  width: 8em;
+}
+
+.line-element:nth-child(4) {
+  width: 16em;
+}
+
+.line-element:nth-child(5) {
+  width: 4em;
+}
+
+.line-element:nth-child(6) {
+  width: 4em;
+  margin-right: 0;
+}
+
+label {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .line {
+    flex-direction: column;
+  }
+
+  .line:first-child {
+    display: none;
+  }
+
+  .line-element {
+    margin-right: 0;
+    margin-bottom: 0.5em;
+    width: auto !important;
+  }
+
+  .line-element:nth-child(1) {
+    position: absolute;
+
+    .delete {
+      margin-left: 0;
+      margin-right: 0.5em;
+    }
+  }
+
+  .line-element:nth-child(6) {
+    margin-left: auto;
+    order: -1;
+  }
+
+  label {
+    width: 8em;
+    display: inline-block;
   }
 }
